@@ -1,0 +1,5 @@
+# pKaSolver license
+
+This file is reserved for the third-party license applicable to pKaSolver.
+
+Replace this placeholder with the exact license text before distributing the project. The license must be obtained from the official pKaSolver source or the original project distribution.

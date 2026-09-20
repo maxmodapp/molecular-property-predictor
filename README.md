@@ -19,32 +19,29 @@ It was built as a practical tool for predicting molecular log P and pKa values w
 
 ## Screenshots
 
-1. `docs/screenshots/initial-view.png`
+### Initial Application View
 
-   Initial application view before entering or drawing a molecule
+![Initial application view](docs/screenshots/initial-view.png)
 
+Initial application view before entering or drawing a molecule.
 
-2. `docs/screenshots/glycine-drawing-prediction.png`
+### Glycine Drawing And Prediction
 
-   Glycine Drawing and Prediction
+![Glycine drawing and prediction](docs/screenshots/glycine-drawing-prediction.png)
 
-   The glycine molecule can be drawn directly in the molecular editor or entered using its SMILES/InChI representation. After clicking the prediction button, the predicted properties are displayed in the lower section of the application. A pKa map is also shown further below, illustrating the deprotonation steps and indicating the molecular site where each deprotonation occurs.
+The glycine molecule can be drawn directly in the molecular editor or entered using its SMILES/InChI representation. After clicking the prediction button, the predicted properties are displayed in the lower section of the application.
 
+### Molecular Microstate Visualization
 
-3. `docs/screenshots/glycine-microstates.png`
+![Glycine microstates](docs/screenshots/glycine-microstates.png)
 
-   Molecular Microstate Visualization
+Example of the pKa prediction module applied to glycine. The application identifies ionizable sites, estimates their pKa values, and visually represents the transitions between the molecule's different protonation microstates.
 
-   Example of the pKa prediction module applied to glycine. The application identifies ionizable sites, estimates their pKa values, and visually represents the transitions between the molecule’s different protonation microstates.
+### Multiple pKa And Microstate Prediction
 
+![Adrenaline microstates](docs/screenshots/adrenaline-microstates.png)
 
-4. `docs/screenshots/adrenaline-microstates.png`
-
-   Multiple pKa and Microstate Prediction for Adrenaline
-
-   Example of the analysis of a molecule with multiple ionizable sites. The application predicts the pKa values of adrenaline and visually represents each protonation transition between its molecular microstates.
-
-
+Example of the analysis of a molecule with multiple ionizable sites. The application predicts the pKa values of adrenaline and visually represents each protonation transition between its molecular microstates.
 
 ## Prediction Pipeline
 

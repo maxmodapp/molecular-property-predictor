@@ -1,21 +1,14 @@
 # Molecular Property Predictor
 
-Desktop application for molecular property prediction from SMILES, InChI, or structures drawn in an embedded molecular editor.
+Desktop application for molecular property prediction using machine learning, deep learning, and cheminformatics.
 
-This project applies machine learning and deep learning techniques to molecular property prediction, combining neural network inference, graph-based molecular representations, cheminformatics preprocessing, pKa microstate generation, molecular visualization, and desktop software engineering into a single application.
+The application predicts molecular log P and microstate pKa values from SMILES, InChI, or structures drawn directly in the integrated molecular editor. The goal of the project is to provide a local inference tool that combines neural network models, molecular graph representations, chemical preprocessing, and visual interpretation of prediction results.
 
-It was built as a practical tool for predicting molecular log P and pKa values while keeping the full inference workflow local.
+## Overview
 
-## What The App Does
+This project was developed as an end-to-end molecular property prediction workflow. It includes the desktop interface, molecular input handling, trained model loading, neural network inference, pKa microstate evaluation, and visualization of molecular results.
 
-- Accepts molecular input as SMILES, InChI, or a drawn structure.
-- Standardizes and renders the input molecule with RDKit.
-- Predicts log P using a trained Keras neural network model.
-- Predicts microstate pKa values using a fine-tuned ensemble of graph neural network models.
-- Shows individual protonation/deprotonation transitions with their predicted pKa ranges.
-- Generates a final pKa map over the molecule.
-- Provides a desktop UI built with PySide6.
-- Can be packaged as a portable Windows executable with PyInstaller.
+The app is designed to work locally: molecular structures are processed on the user's machine and predictions are generated without relying on external prediction APIs.
 
 ## Screenshots
 
@@ -23,97 +16,92 @@ It was built as a practical tool for predicting molecular log P and pKa values w
 
 ![Initial application view](docs/screenshots/initial-view.png)
 
-Initial application view before entering or drawing a molecule.
+Initial interface before entering or drawing a molecule.
 
-### Glycine Drawing And Prediction
+### Molecular Drawing And Prediction
 
 ![Glycine drawing and prediction](docs/screenshots/glycine-drawing-prediction.png)
 
-The glycine molecule can be drawn directly in the molecular editor or entered using its SMILES/InChI representation. After clicking the prediction button, the predicted properties are displayed in the lower section of the application.
+Example workflow using glycine. The molecule can be drawn directly in the editor or entered as SMILES/InChI, then processed by the prediction pipeline.
 
-### Molecular Microstate Visualization
+### Microstate pKa Visualization
 
 ![Glycine microstates](docs/screenshots/glycine-microstates.png)
 
-Example of the pKa prediction module applied to glycine. The application identifies ionizable sites, estimates their pKa values, and visually represents the transitions between the molecule's different protonation microstates.
+pKa prediction output for glycine, including protonation/deprotonation transitions and predicted pKa values.
 
-### Multiple pKa And Microstate Prediction
+### Multiple Ionizable Sites
 
 ![Adrenaline microstates](docs/screenshots/adrenaline-microstates.png)
 
-Example of the analysis of a molecule with multiple ionizable sites. The application predicts the pKa values of adrenaline and visually represents each protonation transition between its molecular microstates.
+Example prediction for a molecule with multiple ionizable sites, showing the microstate-level pKa analysis and visual output.
 
-## Prediction Pipeline
+## Main Features
 
-### Molecular Input
+- Molecular input through SMILES, InChI, or an embedded structure editor.
+- RDKit-based molecule parsing, conversion, standardization, and rendering.
+- log P prediction using a trained Keras neural network.
+- pKa prediction using graph neural network models over molecular microstates.
+- Microstate-level protonation/deprotonation analysis.
+- Ensemble-based prediction aggregation and pKa range reporting.
+- Visual pKa reaction maps and final molecular pKa map.
+- Responsive PySide6 desktop interface with background prediction workers.
+- Local inference workflow suitable for desktop use and executable packaging.
 
-The app supports three input workflows:
+## Machine Learning Pipeline
 
-- Direct SMILES input.
-- InChI input converted into a molecule.
-- Structure drawing through an embedded molecular editor.
+### pKa Model
 
-The resulting molecule is parsed with RDKit, converted to a consistent representation, and rendered in the interface before running the selected predictions.
+The pKa module is the main molecular microstate prediction workflow in the application. Starting from the input molecule, the program identifies ionizable sites and generates the possible protonated/deprotonated microstate transitions. Each transition is converted into a molecular graph representation using atom and bond descriptors, then evaluated with fine-tuned graph neural network checkpoints.
 
-### log P Prediction
+The workflow can be summarized as:
 
-The log P model is stored in:
+1. Parse the input molecule from SMILES, InChI, or the molecular editor.
+2. Detect candidate ionizable sites.
+3. Generate protonated and deprotonated molecular microstates.
+4. Build graph-based molecular inputs for each microstate transition.
+5. Run neural network inference for every generated transition.
+6. Aggregate the model outputs into a predicted pKa value and prediction range.
+7. Display the results as text, reaction visualizations, and a final molecular pKa map.
 
-```text
-models/logp/model_logp.keras
-models/logp/logp_norm.npz
-```
+The model output is presented as:
 
-The application loads the trained Keras model, applies the same normalization convention used during training, runs local inference, and converts the output back to the original log P scale.
+- Protonated and deprotonated SMILES.
+- Predicted pKa value for each microstate transition.
+- Prediction range derived from model variation.
+- Reaction visualization for each microstate.
+- Final pKa map over the molecule.
 
-### pKa Prediction
+This allows the application to analyze molecules with one or multiple ionizable sites and report the pKa behavior of each relevant microstate transition.
 
-The pKa workflow uses graph-based molecular representations and an ensemble of fine-tuned neural network checkpoints. Each candidate microstate is evaluated by the model ensemble, and the app reports both the predicted pKa and an uncertainty range derived from the ensemble spread.
+### log P Model
 
-The pKa checkpoints are stored directly in:
+The log P module uses a trained neural network built with Keras. Molecular inputs are transformed into the representation expected by the model, predictions are generated locally, and the output is converted back to the original log P scale using the normalization parameters saved during training.
 
-```text
-models/pka/
-|-- fine_tuned_model_0.pt
-|-- fine_tuned_model_1.pt
-|-- ...
-|-- fine_tuned_model_10.pt
-`-- fine_tuned_best_model.pt
-```
+This part of the project focuses on integrating a supervised regression model into the same desktop prediction workflow.
 
-The pKa inference engine loads those checkpoints, evaluates the generated protonation/deprotonation states, and returns:
+## Technical Focus
 
-- The protonated SMILES.
-- The deprotonated SMILES.
-- The predicted pKa value.
-- The prediction range.
-- A reaction visualization for each microstate.
-- A final molecular pKa map.
+This project demonstrates:
 
-## Technical Highlights
-
-- Machine learning workflow for molecular property prediction.
-- Deep learning based inference with trained neural network models.
-- Keras neural network inference for log P estimation.
-- Graph neural network ensemble for microstate pKa prediction.
-- Molecular graph featurization using atom and bond descriptors.
-- Ensemble aggregation to estimate prediction spread and report pKa ranges.
-- Local model loading and inference without external prediction APIs.
-- RDKit-based molecule parsing, conversion, and rendering.
-- Integrated molecular drawing workflow.
-- Desktop GUI architecture with separate prediction workers to keep the UI responsive.
-- Portable application build with PyInstaller.
-- Repository structure prepared for GitHub and portfolio review.
+- Applied machine learning for molecular property prediction.
+- Deep learning inference with trained neural network models.
+- Graph neural network usage for molecular structures.
+- Molecular graph featurization with atom and bond descriptors.
+- Integration of cheminformatics tools with neural prediction models.
+- Model inference orchestration inside a desktop application.
+- Scientific result visualization for chemical interpretation.
+- Desktop software packaging and local deployment.
 
 ## Repository Structure
 
 ```text
 molecular-property-predictor/
 |-- app/
-|   |-- desktop_app_final.py        # Main PySide6 desktop app
-|   |-- pka_prediction_engine.py    # App-owned pKa integration layer
-|   |-- desktop_app_final.spec      # PyInstaller build spec
-|   |-- build_exe.ps1               # Windows build script
+|   |-- desktop_app_final.py
+|   |-- pka_prediction_engine.py
+|   |-- desktop_app_final.spec
+|   |-- build_exe.ps1
 |   |-- jsme_editor_embed_fixed.html
 |   |-- app_icon.ico
 |   `-- app_icon.png
@@ -127,7 +115,7 @@ molecular-property-predictor/
 |       |-- fine_tuned_model_10.pt
 |       `-- fine_tuned_best_model.pt
 |-- external/
-|   `-- pkasolver/                  # Minimal runtime components used for pKa inference
+|   `-- pkasolver/
 |-- docs/
 |   `-- screenshots/
 |-- requirements.txt
@@ -137,9 +125,9 @@ molecular-property-predictor/
 `-- README.md
 ```
 
-## Tech Stack
+## Technologies
 
-- Python 3.9
+- Python
 - PySide6
 - RDKit
 - TensorFlow / Keras
@@ -149,64 +137,12 @@ molecular-property-predictor/
 - SVGUtils
 - PyInstaller
 
-## Run From Source
-
-Create and activate a Python 3.9 environment with the required dependencies installed. Then run:
-
-```powershell
-cd app
-python desktop_app_final.py
-```
-
-To validate the pKa prediction engine without launching the UI:
-
-```powershell
-cd app
-python desktop_app_final.py --smoke-test-pkasolver
-```
-
-Expected output:
-
-```text
-pKaSolver smoke test OK: 1 microestado(s).
-```
-
-## Build A Windows Executable
-
-From an environment with the dependencies installed:
-
-```powershell
-cd app
-.\build_exe.ps1 -OutputRoot D:\PPS_PrediccionPropiedades -CreateZip
-```
-
-The build script uses the PyInstaller spec in `app/desktop_app_final.spec` and includes the app assets, local models, and runtime files needed for prediction.
-
-## Model Files And Git LFS
-
-The model files are large binary artifacts. This repository includes `.gitattributes` rules for Git LFS:
-
-```text
-*.pt filter=lfs diff=lfs merge=lfs -text
-*.keras filter=lfs diff=lfs merge=lfs -text
-*.npz filter=lfs diff=lfs merge=lfs -text
-```
-
-Before pushing the repository:
-
-```powershell
-git lfs install
-git add .
-git commit -m "Initial molecular property predictor app"
-git push
-```
-
 ## Third-Party Components
 
-The pKa workflow uses selected runtime components from pKaSolver and Dimorphite-DL for molecular microstate handling and pKa-related utilities. The application-level integration, model layout, UI, prediction presentation, packaging, and local inference workflow are organized in this repository.
+The pKa workflow uses selected runtime components from pKaSolver and Dimorphite-DL for microstate handling and pKa-related utilities. The application-level integration, model organization, user interface, prediction presentation, and local inference workflow are implemented in this project.
 
-See `THIRD_PARTY_NOTICES.md` for dependency attribution and license notes.
+License and attribution notes are included in `THIRD_PARTY_NOTICES.md`.
 
 ## Project Status
 
-This is a portfolio-ready desktop inference application built from a molecular property prediction workflow. Current predictions include log P and microstate pKa. The structure is prepared for future expansion to additional molecular properties.
+The current version supports local prediction of log P and microstate pKa values. The structure is prepared for future expansion to additional molecular properties and additional trained models.

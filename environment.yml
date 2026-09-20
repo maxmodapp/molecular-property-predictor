@@ -1,0 +1,25 @@
+name: molecular-property-predictor
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.9
+  - pip
+  - numpy
+  - pandas
+  - pillow
+  - rdkit
+  - pip:
+      - cairosvg
+      - ipython
+      - PySide6
+      - svgutils
+      - tensorflow
+      - torch
+      - torch-geometric
+      - torch-cluster
+      - torch-scatter
+      - torch-sparse
+      - torch-spline-conv
+      - tqdm
+      - pyinstaller

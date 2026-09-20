@@ -1,0 +1,18 @@
+# Python 3.9 is recommended.
+cairosvg
+ipython
+numpy
+pandas
+pillow
+PySide6
+rdkit
+svgutils
+tensorflow
+torch
+torch-geometric
+torch-cluster
+torch-scatter
+torch-sparse
+torch-spline-conv
+tqdm
+pyinstaller

@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
 RDLogger.DisableLog("rdApp.*")
 
 PKA_MODEL_DIR_ENV = "PREDICTOR_PKA_MODEL_DIR"
+USE_ONLY_BEST_MODEL = True
 
 node_feat_list = [
     "element",
@@ -87,8 +88,11 @@ def _resolve_model_dir() -> Path:
 
 def _model_checkpoint_paths() -> list[Path]:
     model_dir = _resolve_model_dir()
-    model_paths = [model_dir / f"fine_tuned_model_{i}.pt" for i in range(11)]
-    model_paths.append(model_dir / "fine_tuned_best_model.pt")
+    if USE_ONLY_BEST_MODEL:
+        model_paths = [model_dir / "fine_tuned_best_model.pt"]
+    else:
+        model_paths = [model_dir / f"fine_tuned_model_{i}.pt" for i in range(11)]
+        model_paths.append(model_dir / "fine_tuned_best_model.pt")
     missing = [str(model_path) for model_path in model_paths if not model_path.exists()]
     if missing:
         raise FileNotFoundError(

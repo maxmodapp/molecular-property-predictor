@@ -1,6 +1,6 @@
 # Molecular Property Predictor
 
-Desktop application for local molecular property prediction from SMILES, InChI, or structures drawn in an embedded molecular editor.
+Desktop application for molecular property prediction from SMILES, InChI, or structures drawn in an embedded molecular editor.
 
 This project applies machine learning and deep learning techniques to molecular property prediction, combining neural network inference, graph-based molecular representations, cheminformatics preprocessing, pKa microstate generation, molecular visualization, and desktop software engineering into a single application.
 
@@ -19,36 +19,32 @@ It was built as a practical tool for predicting molecular log P and pKa values w
 
 ## Screenshots
 
-Add screenshots under `docs/screenshots/`.
+1. `docs/screenshots/initial-view.png`
 
-Recommended screenshots:
+   Initial application view before entering or drawing a molecule
 
-1. `docs/screenshots/main-input.png`
 
-   Main app view after entering a SMILES or InChI. This should show the molecular input area, the rendered molecule, and the prediction panel.
+2. `docs/screenshots/glycine-drawing-prediction.png`
 
-2. `docs/screenshots/pka-results.png`
+   Glycine Drawing and Prediction
 
-   pKa tab with the list of microstate pKa predictions and the protonated/deprotonated SMILES transitions.
+   The glycine molecule can be drawn directly in the molecular editor or entered using its SMILES/InChI representation. After clicking the prediction button, the predicted properties are displayed in the lower section of the application. A pKa map is also shown further below, illustrating the deprotonation steps and indicating the molecular site where each deprotonation occurs.
 
-3. `docs/screenshots/pka-map.png`
 
-   Full-width pKa visual output, including the microstate reaction image and the final molecular pKa map.
+3. `docs/screenshots/glycine-microstates.png`
 
-4. `docs/screenshots/logp-results.png`
+   Molecular Microstate Visualization
 
-   log P tab showing the predicted log P value.
+   Example of the pKa prediction module applied to glycine. The application identifies ionizable sites, estimates their pKa values, and visually represents the transitions between the molecule’s different protonation microstates.
 
-You can display them in GitHub like this:
 
-```md
-## Screenshots
+4. `docs/screenshots/adrenaline-microstates.png`
 
-![Main input](docs/screenshots/main-input.png)
-![pKa results](docs/screenshots/pka-results.png)
-![pKa map](docs/screenshots/pka-map.png)
-![log P results](docs/screenshots/logp-results.png)
-```
+   Multiple pKa and Microstate Prediction for Adrenaline
+
+   Example of the analysis of a molecule with multiple ionizable sites. The application predicts the pKa values of adrenaline and visually represents each protonation transition between its molecular microstates.
+
+
 
 ## Prediction Pipeline
 

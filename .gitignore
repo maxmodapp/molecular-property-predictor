@@ -21,5 +21,4 @@ dist/
 *.rar
 *.zip
 
-app/pkasolver_smoke_test.log
 docs/screenshots/.DS_Store

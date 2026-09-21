@@ -10,6 +10,13 @@ This project was developed as an end-to-end molecular property prediction workfl
 
 The app is designed to work locally: molecular structures are processed on the user's machine and predictions are generated without relying on external prediction APIs.
 
+## Downloads
+
+Prebuilt desktop versions are available in the [Releases](https://github.com/maxmodapp/molecular-property-predictor/releases) section.
+
+- Windows x86_64 portable build.
+- Linux x86_64 Ubuntu build.
+
 ## Screenshots
 
 ### Initial Application View
@@ -93,6 +100,10 @@ This project demonstrates:
 - Scientific result visualization for chemical interpretation.
 - Desktop software packaging and local deployment.
 
+## Datasets
+
+The repository includes processed CSV datasets prepared for model training and inspection, together with external SDF reference datasets preserved with their original license.
+
 ## Repository Structure
 
 ```text
@@ -118,6 +129,7 @@ molecular-property-predictor/
 |   `-- pkasolver/
 |-- docs/
 |   `-- screenshots/
+|-- Datasets/
 |-- requirements.txt
 |-- environment.yml
 |-- THIRD_PARTY_NOTICES.md
